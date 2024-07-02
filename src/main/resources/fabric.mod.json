@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "mifstatistics",
+  "version": "${version}",
+  "name": "MIFStatistics",
+  "description": "Server-side mod, which implement player time and numismatic-overhaul balance into the Prometheus service",
+  "authors": [
+    "Smole17"
+  ],
+  "contact": {
+    "repo": "https://github.com/Smole17/mifstatistics"
+  },
+  "license": "unlicense",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "ru.smole.mifstatistics.MIFStatistics"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "ftblibrary": ">=${ftb_library_version}",
+    "owo": ">=${owo_version}",
+    "numismatic-overhaul": ">=${numismatic_overhaul_version}"
+  }
+}
