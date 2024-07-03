@@ -1,4 +1,5 @@
 plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
     id "fabric-loom" version "1.6-SNAPSHOT"
     id "maven-publish"
 }
@@ -7,7 +8,12 @@ version = project.mod_version
 group = project.maven_group
 base.archivesName = project.archives_base_name
 
+configurations {
+    shadow
+}
+
 repositories {
+    mavenLocal()
     maven { url = "https://maven.ladysnake.org/releases" }
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://jitpack.io" }
@@ -35,9 +41,8 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
-    compileOnly include("io.prometheus:prometheus-metrics-core:1.0.0")
-    compileOnly include("io.prometheus:prometheus-metrics-instrumentation-jvm:1.0.0")
-    compileOnly include("io.prometheus:prometheus-metrics-exporter-httpserver:1.0.0")
+    shadow "io.prometheus:prometheus-metrics-core:${project.prometheus_version}"
+    shadow "io.prometheus:prometheus-metrics-exporter-httpserver:${project.prometheus_version}"
 
     modCompileOnly "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompileOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -75,10 +80,16 @@ java {
     withSourcesJar()
 }
 
-jar {
-    from("LICENSE") {
-        rename { "${it}_${base.archivesName}" }
-    }
+shadowJar {
+    configurations = [project.configurations.shadow]
+    exclude("META-INF")
+}
+
+remapJar {
+    archiveBaseName = base.archivesName
+    dependsOn(shadowJar)
+    mustRunAfter(shadowJar)
+    inputFile = file(shadowJar.archivePath)
 }
 
 tasks.withType(JavaCompile)*.options*.encoding = "UTF-8"
