@@ -14,6 +14,7 @@ configurations {
 
 repositories {
     mavenLocal()
+    maven { url = "https://maven.nucleoid.xyz/" }
     maven { url = "https://maven.ladysnake.org/releases" }
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://jitpack.io" }
@@ -44,20 +45,20 @@ dependencies {
     shadow "io.prometheus:prometheus-metrics-core:${project.prometheus_version}"
     shadow "io.prometheus:prometheus-metrics-exporter-httpserver:${project.prometheus_version}"
 
-    modCompileOnly "net.fabricmc:fabric-loader:${project.loader_version}"
-    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompileOnly "dev.ftb.mods:ftb-library-fabric:${project.ftb_library_version}"
-    annotationProcessor modCompileOnly("io.wispforest:owo-lib:${project.owo_version}")
-    modCompileOnly "maven.modrinth:numismatic-overhaul:${project.numismatic_overhaul_modrinth_version}"
-    modCompileOnly include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-    modCompileOnly include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
+    modImplementation "maven.modrinth:numismatic-overhaul:${project.numismatic_overhaul_modrinth_version}"
+
+    modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+    modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+    modImplementation include("eu.pb4:placeholder-api:${project.placeholder_api}")
 }
 
 processResources {
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "loader_version", project.loader_version
-    inputs.property "ftb_library_version", project.ftb_library_version
     inputs.property "owo_version", project.owo_version
     inputs.property "numismatic_overhaul_version", project.numismatic_overhaul_version
     inputs.property "numismatic_overhaul_modrinth_version", project.numismatic_overhaul_modrinth_version
@@ -68,7 +69,6 @@ processResources {
         expand "version": project.version,
                 "minecraft_version": project.minecraft_version,
                 "loader_version": project.loader_version,
-                "ftb_library_version": project.ftb_library_version,
                 "owo_version": project.owo_version,
                 "numismatic_overhaul_version": project.numismatic_overhaul_version,
                 "numismatic_overhaul_modrinth_version": project.numismatic_overhaul_modrinth_version,

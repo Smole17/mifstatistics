@@ -24,7 +24,8 @@ public class PlayerTimeMetric extends Metric {
                 .getAsJsonObject("stats");
         val custom = stats.getAsJsonObject("minecraft:custom");
 
-        return custom.getAsJsonPrimitive("minecraft:total_world_time").getAsInt();
+        val totalWorldTimePrimitive = custom.getAsJsonPrimitive("minecraft:total_world_time");
+        return totalWorldTimePrimitive == null ? 0 : totalWorldTimePrimitive.getAsInt();
     }
 
     public PlayerTimeMetric() {

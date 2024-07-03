@@ -1,11 +1,12 @@
 package ru.smole.mifstatistics;
 
-import com.glisco.numismaticoverhaul.NumismaticCommand;
 import com.google.common.collect.Lists;
 import io.prometheus.metrics.exporter.httpserver.HTTPServer;
 import lombok.SneakyThrows;
+import lombok.val;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import ru.smole.mifstatistics.command.MoneyTopCommand;
 import ru.smole.mifstatistics.command.TimeTopCommand;
@@ -42,9 +43,11 @@ public class MIFStatistics implements ModInitializer {
             METRICS.forEach(metric -> metric.refresh(server));
         });
 
-        HTTPServer.builder()
+        val httpServer = HTTPServer.builder()
                 .port(CONFIG.port())
                 .buildAndStart();
+
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> httpServer.close());
 
         System.out.printf("Prometheus server listening on localhost:%s%n", CONFIG.port());
     }

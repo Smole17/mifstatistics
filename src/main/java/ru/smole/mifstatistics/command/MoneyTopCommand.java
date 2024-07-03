@@ -4,6 +4,7 @@ import com.glisco.numismaticoverhaul.ModComponents;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
+import eu.pb4.placeholders.api.TextParserUtils;
 import io.wispforest.owo.offline.OfflineDataLookup;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +13,11 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import ru.smole.mifstatistics.MIFStatistics;
-import ru.smole.mifstatistics.metric.world.PlayerTimeMetric;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.minecraft.server.command.CommandManager.literal;
@@ -62,7 +60,7 @@ public class MoneyTopCommand {
                     leaderboard.put(uuid, new PlayerData(uuid, gameProfile.getName(), balance));
                 }));
 
-        ctx.getSource().sendMessage(Text.of(MIFStatistics.CONFIG.moneyTopTitle()));
+        ctx.getSource().sendMessage(TextParserUtils.formatText(MIFStatistics.CONFIG.moneyTopTitle()));
 
         val dataLeaderboard = leaderboard.values()
                 .stream()
@@ -104,7 +102,7 @@ public class MoneyTopCommand {
         }
 
         public Text toText(int position) {
-            return Text.translatable(MIFStatistics.CONFIG.moneyTopPositionFormat().formatted(position, name, balance));
+            return TextParserUtils.formatText(MIFStatistics.CONFIG.moneyTopPositionFormat().formatted(position, name, balance));
         }
     }
 }

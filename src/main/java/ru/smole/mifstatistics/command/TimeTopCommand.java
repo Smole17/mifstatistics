@@ -3,6 +3,7 @@ package ru.smole.mifstatistics.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
+import eu.pb4.placeholders.api.TextParserUtils;
 import io.wispforest.owo.offline.OfflineDataLookup;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,7 @@ public class TimeTopCommand {
                     leaderboard.put(uuid, new PlayerData(uuid, gameProfile.getName(), time));
                 }));
 
-        ctx.getSource().sendFeedback(Text.of(MIFStatistics.CONFIG.timeTopTitle()), false);
+        ctx.getSource().sendFeedback(TextParserUtils.formatText(MIFStatistics.CONFIG.timeTopTitle()), false);
 
         val dataLeaderboard = leaderboard.values()
                 .stream()
@@ -102,7 +103,7 @@ public class TimeTopCommand {
         }
 
         public Text toText(int position) {
-            return Text.of(MIFStatistics.CONFIG.timeTopPositionFormat().formatted(position, name, prettyTimeString(time)));
+            return TextParserUtils.formatText(MIFStatistics.CONFIG.timeTopPositionFormat().formatted(position, name, prettyTimeString(time)));
         }
     }
 
