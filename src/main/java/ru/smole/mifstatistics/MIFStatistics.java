@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import io.prometheus.metrics.exporter.httpserver.HTTPServer;
 import lombok.SneakyThrows;
 import lombok.val;
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -13,11 +13,12 @@ import ru.smole.mifstatistics.command.TimeTopCommand;
 import ru.smole.mifstatistics.config.MIFStatisticsConfig;
 import ru.smole.mifstatistics.metric.Metric;
 import ru.smole.mifstatistics.metric.money.PlayerBalanceMetric;
+import ru.smole.mifstatistics.metric.server.PlayerOnlineMetric;
 import ru.smole.mifstatistics.metric.world.PlayerTimeMetric;
 
 import java.util.List;
 
-public class MIFStatistics implements ModInitializer {
+public class MIFStatistics implements DedicatedServerModInitializer {
 
     public final static String MOD_ID = "mifstatistics";
     public final static MIFStatisticsConfig CONFIG = MIFStatisticsConfig.createAndLoad();
@@ -27,12 +28,13 @@ public class MIFStatistics implements ModInitializer {
 
     @Override
     @SneakyThrows
-    public void onInitialize() {
+    public void onInitializeServer() {
         CommandRegistrationCallback.EVENT.register(MoneyTopCommand::register);
         CommandRegistrationCallback.EVENT.register(TimeTopCommand::register);
 
         METRICS.add(new PlayerBalanceMetric());
         METRICS.add(new PlayerTimeMetric());
+        METRICS.add(new PlayerOnlineMetric());
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             if (--TICKS > 0) return;

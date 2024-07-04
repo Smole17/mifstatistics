@@ -13,7 +13,7 @@
   "license": "unlicense",
   "environment": "server",
   "entrypoints": {
-    "main": [
+    "server": [
       "ru.smole.mifstatistics.MIFStatistics"
     ]
   },
