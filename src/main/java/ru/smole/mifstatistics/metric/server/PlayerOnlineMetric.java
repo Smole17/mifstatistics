@@ -9,7 +9,7 @@ import ru.smole.mifstatistics.metric.Metric;
 public class PlayerOnlineMetric extends Metric {
 
     public PlayerOnlineMetric() {
-        super("time", "Player online status.", "name", "uuid");
+        super("online", "Player online status.", "name", "uuid");
     }
 
     @Override
