@@ -17,7 +17,6 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import ru.smole.mifstatistics.MIFStatistics;
 import ru.smole.mifstatistics.metric.world.PlayerDeathMetric;
-import ru.smole.mifstatistics.metric.world.PlayerTimeMetric;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -86,7 +85,7 @@ public class DeathTopCommand {
 
         private final UUID uuid;
         private final String name;
-        private final int time;
+        private final int deaths;
 
         @Override
         public int hashCode() {
@@ -100,40 +99,11 @@ public class DeathTopCommand {
 
         @Override
         public int compareTo(@NotNull PlayerData playerData) {
-            return Long.compare(time, playerData.time);
+            return Long.compare(deaths, playerData.deaths);
         }
 
         public Text toText(int position) {
-            return TextParserUtils.formatText(MIFStatistics.CONFIG.deathsTopPositionFormat().formatted(position, name, prettyTimeString(time)));
-        }
-    }
-
-    public static String prettyTimeString(long seconds) {
-        if (seconds <= 0L) {
-            return "0 сек.";
-        } else {
-            StringBuilder builder = new StringBuilder();
-            prettyTimeString(builder, seconds);
-            return builder.toString();
-        }
-    }
-
-    private static void prettyTimeString(StringBuilder builder, long seconds) {
-        if (seconds > 0L) {
-            if (seconds < 60L) {
-                builder.append(seconds);
-                builder.append(" сек.");
-            } else if (seconds < 3600L) {
-                builder.append(seconds / 60L);
-                builder.append(" мин.");
-            } else if (seconds < 86400L) {
-                builder.append(seconds / 3600L);
-                builder.append(" ч.");
-            } else {
-                builder.append(seconds / 86400L);
-                builder.append(" дн.");
-            }
-
+            return TextParserUtils.formatText(MIFStatistics.CONFIG.deathsTopPositionFormat().formatted(position, name, deaths));
         }
     }
 }
