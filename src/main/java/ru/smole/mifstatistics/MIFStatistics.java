@@ -14,6 +14,7 @@ import ru.smole.mifstatistics.config.MIFStatisticsConfig;
 import ru.smole.mifstatistics.metric.Metric;
 import ru.smole.mifstatistics.metric.money.PlayerBalanceMetric;
 import ru.smole.mifstatistics.metric.server.PlayerOnlineMetric;
+import ru.smole.mifstatistics.metric.world.PlayerDeathMetric;
 import ru.smole.mifstatistics.metric.world.PlayerTimeMetric;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class MIFStatistics implements DedicatedServerModInitializer {
         METRICS.add(new PlayerBalanceMetric());
         METRICS.add(new PlayerTimeMetric());
         METRICS.add(new PlayerOnlineMetric());
+        METRICS.add(new PlayerDeathMetric());
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             if (--TICKS > 0) return;
