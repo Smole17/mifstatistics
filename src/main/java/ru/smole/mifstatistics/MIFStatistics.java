@@ -8,6 +8,7 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import ru.smole.mifstatistics.command.DeathTopCommand;
 import ru.smole.mifstatistics.command.MoneyTopCommand;
 import ru.smole.mifstatistics.command.TimeTopCommand;
 import ru.smole.mifstatistics.config.MIFStatisticsConfig;
@@ -32,6 +33,7 @@ public class MIFStatistics implements DedicatedServerModInitializer {
     public void onInitializeServer() {
         CommandRegistrationCallback.EVENT.register(MoneyTopCommand::register);
         CommandRegistrationCallback.EVENT.register(TimeTopCommand::register);
+        CommandRegistrationCallback.EVENT.register(DeathTopCommand::register);
 
         METRICS.add(new PlayerBalanceMetric());
         METRICS.add(new PlayerTimeMetric());

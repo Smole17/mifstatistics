@@ -22,4 +22,9 @@ public class MIFStatisticsConfigModel {
     public String timeTopTitle = "Time leaderboard:";
     @RestartRequired
     public String timeTopPositionFormat = "%d. %s - %s";
+
+    @RestartRequired
+    public String deathsTopTitle = "Deaths leaderboard:";
+    @RestartRequired
+    public String deathsTopPositionFormat = "%d. %s - %s";
 }
