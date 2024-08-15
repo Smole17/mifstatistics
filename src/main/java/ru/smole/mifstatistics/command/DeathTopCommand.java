@@ -56,9 +56,9 @@ public class DeathTopCommand {
                 .stream()
                 .filter(uuid -> !onlinePlayers.contains(uuid))
                 .forEach(uuid -> server.getUserCache().getByUuid(uuid).ifPresent(gameProfile -> {
-                    val time = PlayerDeathMetric.getOfflinePlayerDeaths(server, uuid) / 20;
+                    val deaths = PlayerDeathMetric.getOfflinePlayerDeaths(server, uuid);
 
-                    leaderboard.put(uuid, new PlayerData(uuid, gameProfile.getName(), time));
+                    leaderboard.put(uuid, new PlayerData(uuid, gameProfile.getName(), deaths));
                 }));
 
         ctx.getSource().sendFeedback(TextParserUtils.formatText(MIFStatistics.CONFIG.deathsTopTitle()), false);
