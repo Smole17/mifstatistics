@@ -19,8 +19,12 @@ public class PlayerTimeMetric extends Metric {
     public static int getOfflinePlayerTicks(MinecraftServer server, UUID uuid) {
         val savedStats = server.getSavePath(WorldSavePath.STATS);
         val savedPlayerStatsPath = savedStats.resolve(uuid + ".json");
-        val stats = JsonParser.parseReader(new FileReader(savedPlayerStatsPath.toFile()))
-                .getAsJsonObject()
+        
+        val jsonElement = JsonParser.parseReader(new FileReader(savedPlayerStatsPath.toFile()));
+        
+        if (jsonElement == null) return 0;
+        
+        val stats = jsonElement.getAsJsonObject()
                 .getAsJsonObject("stats");
         val custom = stats.getAsJsonObject("minecraft:custom");
 
